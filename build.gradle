@@ -1,0 +1,42 @@
+group 'springBoot.sample.com'
+version '1.0-SNAPSHOT'
+
+apply plugin:'idea'
+apply plugin:'java'
+
+buildscript {
+    ext {
+        springbootVersion = "1.5.4.RELEASE"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springbootVersion}")
+    }
+}
+
+idea {
+    module {
+        excludeDirs = [file(".idea"), file(".build"), file(".gradle"), file(".file"), file(".log")]
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "http://repo.spring.io/plugins-release/"
+        }
+    }
+
+}

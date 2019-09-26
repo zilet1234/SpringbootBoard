@@ -1,0 +1,90 @@
+group 'springBoot.sample.com'
+version '1.0-SNAPSHOT'
+
+apply plugin:"idea"
+apply plugin: "war"
+apply plugin:"application"
+apply plugin:"org.springframework.boot"
+
+dependencies {
+
+    // web library
+    implementation 'org.springframework.boot:spring-boot-starter-web:'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:'
+
+    // jsp
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+
+    // jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+
+    // jackson 2
+    implementation 'com.fasterxml.jackson.core:jackson-databind:+'
+
+    // mssql
+    implementation 'com.microsoft.sqlserver:sqljdbc4:+'
+
+    // stripes
+    implementation "net.sourceforge.stripes:stripes:1.5.8"
+
+    // security
+    implementation "org.springframework.boot:spring-boot-starter-security"
+
+    // guava
+    implementation group: 'com.google.guava', name: 'guava', version: '28.0-jre'
+
+    // unit test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.12'
+
+}
+
+idea {
+    module {
+        outputDir file("build/out")
+        testOutputDir file("build/test")
+    }
+}
+
+war {
+    archiveName = "ROOT.war"
+}
+
+// 실행가능한 war 만들지 않도록
+bootRepackage {
+    enabled = false
+}
+
+bootRun {
+    systemProperties = System.properties
+}
+
+// 의존성 디렉토리 생성하기 (web 유형의 프로젝트)
+//task initWebProject(description: "initialize Web Project") {
+//    doLast {
+//        sourceSets*.java. srcDirs*.each {
+//            if (!it.exists()) it.mkdirs()
+//        }
+//
+//        sourceSets*.resources. srcDirs*.each {
+//            if (!it.exists()) it.mkdirs()
+//        }
+//
+//        [webAppDir, new File(webAppDir, '/WEB-INF') , new File(webAppDir, '/WEB-INF/views'), new File(webAppDir, '/resources'),
+//         new File(webAppDir, '/resources/js'),new File(webAppDir, '/resources/css'), new File(webAppDir, '/resources/images')].each {
+//            if (!it.exists()) it.mkdirs()
+//        }
+//    }
+//}
+
+// 의존성 모듈들의 그룹이름:모듈이름:버전정보 보기
+//task checkModules() {
+//    configurations.runtime.resolvedConfiguration.resolvedArtifacts.each { raf ->
+//        def cid = raf.getModuleVersion().getId()
+//        println "Dependency for runtime ${cid.group}:${cid.name}:${cid.version}"
+//    }
+//}

@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+html {
+	height: 100%;
+	line-height: 16px;
+	text-decoration: none;
+	word-break: break-all;
+}
+
+body {
+	position: relative;
+}
+
+p {
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+table {
+	width: 100%;
+	border: 1px solid #444444;
+}
+
+td, th {
+	border: 1px solid #444444;
+}
+
+div {
+	padding: 10px;
+	border: 1px solid green;
+	background-color: #e3ffe0;
+}
+
+/* container */
+.box-container {
+	width: 360px;
+	border: 2px solid #e91bf5;
+}
+
+
+#box1 {
+	position: static; top: 40px; left: 10px;
+}
+#box2 {
+	position: relative; top: 40px; left: 10px;
+}
+#box3 {
+	position: absolute; top: 30px; right: 30px;
+}
+#box4 {
+	position: fixed; top: 50px; left: 150px;
+}

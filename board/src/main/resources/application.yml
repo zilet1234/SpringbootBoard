@@ -1,0 +1,73 @@
+spring:
+    mvc:
+        view:
+            prefix: /WEB-INF/views
+            suffix: .jsp
+    devtools:
+        livereload:
+            enabled: true
+    jpa:
+        show-sql: true
+        properties:
+            hiberante:
+                ddl-auto: validate
+        hibernate:
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    datasource:
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        url: jdbc:sqlserver://localhost;databaseName=Helloworld;
+        username: sa
+        password: dev@SE@8385
+        initialize: true
+    jackson:
+        serialization:
+            indent_output: true
+server:
+    jsp-servlet:
+        init-parameters:
+            development: true
+    port: 80
+logging:
+    level:
+        root: info
+    path: ../.log
+
+---
+# ZILET
+spring:
+    profiles: zilet
+server:
+    port: 8081
+    context-path: /
+logging:
+    file: ../.log/log.txt
+    level:
+        com.general.controller: debug
+#        org.springframework.security: error
+---
+# YOUNG
+spring:
+    profiles: young
+    datasource:
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        url: jdbc:sqlserver://localhost;databaseName=sample;
+        username: sa
+        password: rudnf12dnjf
+    output:
+        ansi:
+            enabled: always
+server:
+    port: 8080
+    context-path: /
+logging:
+    file: ../.log/log.txt
+    level:
+        com.general.controller: debug
+        org.springframework.security: debug
+---
+# RELEASE
+spring:
+    profiles: release
+logging:
+    file: /root/log/log.txt
