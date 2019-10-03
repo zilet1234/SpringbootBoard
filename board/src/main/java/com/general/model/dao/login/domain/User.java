@@ -31,11 +31,11 @@ public class User implements UserDetails {
 	@Column (nullable = false)
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleSeq")
 	private List<Role> roleList;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "memberSeq")
 	private Member member;
 
