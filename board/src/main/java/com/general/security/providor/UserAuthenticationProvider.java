@@ -1,7 +1,7 @@
 package com.general.security.providor;
 
-import com.general.model.dao.login.domain.Account;
-import com.general.model.dao.login.service.AccountService;
+import com.general.model.dao.login.domain.User;
+import com.general.model.dao.login.service.UserService;
 import com.general.model.dao.login.service.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,18 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 @Slf4j
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    AccountService accountService;
+    UserService userService;
 
     @Autowired
     UserDetailsServiceImpl userDetailsServiceImpl;
@@ -28,24 +31,30 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        log.info("1. info - email = {} :: password = {}", email, password);
+        log.debug("1. info - email = {} :: password = {}", email, password);
 
-        Account account = (Account) userDetailsServiceImpl.loadUserByUsername(email);
+        User user = (User) userDetailsServiceImpl.loadUserByUsername(email);
 
-//        if( account == null || account.isEnabled()) {
-        if( account == null) {
-            log.info("2. info - email = {} :: password = {}", email, password);
+        if( user == null || !user.isEnabled()) {
+            log.debug("2. info - email = {} :: password = {}", email, password);
             throw new UsernameNotFoundException("사용자의 Email 주소를 찾을수 없습니다.");
         }
 
-        if ( !accountService.isAccount(email, password)) {
-            log.info("3. email = {} :: password = {}", email, password);
+        if ( !userService.isUser(email, password)) {
+            log.debug("3. email = {} :: password = {}", email, password);
             throw new BadCredentialsException("Email 주소가 잘못 되었거나 패스워드가 맞지 않습니다.");
         }
 
-        log.info("4. email = {} :: password = {}", email, password);
+        log.debug("4. email = {} :: password = {}", email, password);
 
-        return new UsernamePasswordAuthenticationToken(email, password, authentication.getAuthorities());
+        // 권한 정보
+        Collection< ? extends GrantedAuthority> authorities = user.getAuthorities();
+
+        while (authorities.iterator().hasNext()) {
+            log.debug("authorities = {}", authorities.iterator().next().getAuthority());
+        }
+
+        return new UsernamePasswordAuthenticationToken(email, password, authorities);
     }
 
     @Override

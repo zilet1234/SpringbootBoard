@@ -51,21 +51,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 			log.info("configure :: HttpSecurity ");
+
+			// csrf 사용 불가 설정
 			httpSecurity.csrf().disable();
 
+			// X-Frame-Options 사용 불가 설정
+			httpSecurity.headers().frameOptions().disable();
+
 			httpSecurity.authorizeRequests()
-					.antMatchers("/login").permitAll()
-					.antMatchers("/**")
-					.authenticated()
+					.antMatchers("/sample/Test").permitAll()
+					.antMatchers("/**").authenticated()
                 .and()
 					.formLogin()
 					.loginPage("/login")
 					.usernameParameter("email")
 					.passwordParameter("password")
                     .loginProcessingUrl("/loginProcess")
-//					.defaultSuccessUrl("/main")
 					.successHandler(sampleAuthSuccessHandler)
 					.failureHandler(sampleAuthFailureHandler)
+					.permitAll()
 			    .and()
 			    	.logout()
                     .logoutUrl("/logout")

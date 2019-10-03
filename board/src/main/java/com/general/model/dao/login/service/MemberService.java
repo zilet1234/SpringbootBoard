@@ -20,6 +20,4 @@ public interface MemberService {
 
     void removes(List<Integer> memberSeqs);
 
-
-
 }

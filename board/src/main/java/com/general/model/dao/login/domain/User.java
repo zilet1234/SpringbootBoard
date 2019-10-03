@@ -18,8 +18,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Entity
-public class Account implements UserDetails {
+@Entity(name = "Account")
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)

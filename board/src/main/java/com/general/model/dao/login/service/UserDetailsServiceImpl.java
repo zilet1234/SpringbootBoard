@@ -1,6 +1,6 @@
 package com.general.model.dao.login.service;
 
-import com.general.model.dao.login.domain.Account;
+import com.general.model.dao.login.domain.User;
 import com.general.model.dao.login.domain.Member;
 import com.general.model.dao.login.domain.Role;
 import lombok.extern.slf4j.Slf4j;
@@ -17,30 +17,30 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    AccountService accountService;
+    UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Account account;
+        User user;
 
         try {
-            account = accountService.get(username);
+            user = userService.get(username);
 
-            if( account == null) {
+            if( user == null) {
                 throw new UsernameNotFoundException("사용자 EMail 을 찾을수 없습니다.");
             }
         } catch (UsernameNotFoundException e){
             throw new UsernameNotFoundException("사용자 EMail 을 찾을수 없습니다.");
         }
 
-        List<Role> roleList = account.getRoleList();
-        Member member = account.getMember();
+        List<Role> roleList = user.getRoleList();
+        Member member = user.getMember();
 
-        account.setRoleList(roleList);
-        account.setMember(member);
+        user.setRoleList(roleList);
+        user.setMember(member);
 
-        return account;
+        return user;
     }
 
 }

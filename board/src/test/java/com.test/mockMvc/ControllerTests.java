@@ -1,6 +1,7 @@
-package com.test;
+package com.test.mockMvc;
 
 import com.general.controller.home.MainController;
+import com.test.ApplicationTests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ContextConfiguration(classes=TestApplication.class)
+@ContextConfiguration(classes= ApplicationTests.class)
 @RunWith(SpringRunner.class)
 @WebMvcTest(MainController.class)
-public class TestController {
+public class ControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,6 +32,11 @@ public class TestController {
                 .param("second", "40")
         ).andDo(print())
         .andExpect(status().isOk());
+    }
+
+    @Test
+    public void printTest() {
+        System.out.println("printTest ~ ");
     }
 
 }

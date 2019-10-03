@@ -1,13 +1,9 @@
 package com.general.controller.login;
 
-import com.general.model.dao.login.domain.Account;
-import com.general.model.dao.login.domain.Member;
-import com.general.model.dao.login.domain.Role;
-import com.general.model.dao.login.service.AccountService;
+import com.general.model.dao.login.service.UserService;
 import com.general.model.dao.login.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +18,7 @@ public class LoginController {
     MemberService memberService;
 
     @Autowired
-    AccountService accountService;
+    UserService userService;
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(Model model, HttpServletRequest request) {
