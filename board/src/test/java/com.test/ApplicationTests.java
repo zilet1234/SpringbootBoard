@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = {"com.general.model.dao.login.repository" , "com.general.model.dao.table.repository"})
 @ComponentScan(basePackages = {"com.general"}, excludeFilters = {@ComponentScan.Filter(SpringBootApplication.class)})
-@EntityScan(basePackages = "com.general", basePackageClasses = {Jsr310JpaConverters.class})
+@EntityScan(basePackages = "com.general.model", basePackageClasses = {Jsr310JpaConverters.class})
 public class ApplicationTests {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationTests.class, args);

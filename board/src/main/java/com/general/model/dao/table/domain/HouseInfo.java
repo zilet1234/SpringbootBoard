@@ -14,19 +14,19 @@ public class HouseInfo {
     private Integer houseInfoSeq;
 
     @Column(nullable = false)
-    private String address;
+    private String address;                 // 주소
 
     @Column(nullable = false)
-    private Integer price;
+    private String place;                   // 면적
 
     @Column(nullable = false)
-    private int room;
+    private Integer price;                  // 매매가격
 
     @Column(nullable = false)
-    private int bathroom;
+    private int room;                       // 방/욕실
 
     @Column(nullable = false)
-    private int floor;
+    private int floor;                      // 층수
 
     @Column(nullable = false)
     private LocalDateTime writeDT;

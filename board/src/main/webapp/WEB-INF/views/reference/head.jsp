@@ -48,4 +48,6 @@
     <script src="<%=contextPath%>/resources/js/demo/datatables-demo.js"></script>
     <script src="<%=contextPath%>/resources/js/demo/chart-area-demo.js"></script>
 
+    <script type="text/javascript" src="<%=contextPath%>/resources/js/base.js"></script>
+
 </head>

@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface HouseInfoService {
 
-    HouseInfo get(int houseInfoSeq);
+    HouseInfo get(int houseInfoSeq) throws Exception;
 
-    List<HouseInfo> getAll();
+    List<HouseInfo> getAll() throws Exception;
+
+    HouseInfo set(HouseInfo houseInfo) throws Exception;
+
+    boolean checkExist(HouseInfo houseInfo) throws Exception;
 
 }

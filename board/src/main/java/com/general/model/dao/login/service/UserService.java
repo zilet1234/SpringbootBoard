@@ -8,7 +8,9 @@ public interface UserService {
 
     User get(String email);
 
-    User set(User user);
+    User add(User user);
+
+    User addByTest(User user) throws Exception;
 
     boolean isUser(String email, String password);
 

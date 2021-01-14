@@ -16,9 +16,9 @@ spring:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     datasource:
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        url: jdbc:sqlserver://localhost;databaseName=Helloworld;
+        url: jdbc:sqlserver://localhost;databaseName=Board;
         username: sa
-        password: dev@SE@8385
+        password: rudnf12dnjf
         initialize: true
     jackson:
         serialization:
@@ -28,11 +28,16 @@ server:
         init-parameters:
             development: true
     port: 80
+    context-path: /
+
 logging:
     level:
         root: info
+    package: com.general
     path: ../.log
-
+    name: board
+    pattern:
+        console: "%d{hh:mm:ss} %-5level [%thread] %logger : %msg%n"
 ---
 # ZILET
 spring:
@@ -41,17 +46,17 @@ server:
     port: 8081
     context-path: /
 logging:
-    file: ../.log/log.txt
+    path: ../.log/log.txt
     level:
         com.general.controller: debug
 #        org.springframework.security: error
 ---
-# YOUNG
+# HOME
 spring:
-    profiles: young
+    profiles: home
     datasource:
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        url: jdbc:sqlserver://localhost;databaseName=sample;
+        url: jdbc:sqlserver://localhost;databaseName=Board;
         username: sa
         password: rudnf12dnjf
     output:
@@ -61,7 +66,6 @@ server:
     port: 8080
     context-path: /
 logging:
-    file: ../.log/log.txt
     level:
         com.general.controller: debug
         org.springframework.security: debug
@@ -70,4 +74,4 @@ logging:
 spring:
     profiles: release
 logging:
-    file: /root/log/log.txt
+    path: D:/web/springbootBoard/.log

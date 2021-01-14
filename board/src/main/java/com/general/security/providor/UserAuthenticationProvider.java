@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 @Slf4j
 @Component
@@ -31,27 +32,23 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        log.debug("1. info - email = {} :: password = {}", email, password);
-
         User user = (User) userDetailsServiceImpl.loadUserByUsername(email);
 
         if( user == null || !user.isEnabled()) {
-            log.debug("2. info - email = {} :: password = {}", email, password);
             throw new UsernameNotFoundException("사용자의 Email 주소를 찾을수 없습니다.");
         }
 
         if ( !userService.isUser(email, password)) {
-            log.debug("3. email = {} :: password = {}", email, password);
             throw new BadCredentialsException("Email 주소가 잘못 되었거나 패스워드가 맞지 않습니다.");
         }
-
-        log.debug("4. email = {} :: password = {}", email, password);
 
         // 권한 정보
         Collection< ? extends GrantedAuthority> authorities = user.getAuthorities();
 
-        while (authorities.iterator().hasNext()) {
-            log.debug("authorities = {}", authorities.iterator().next().getAuthority());
+        Iterator< ? extends GrantedAuthority> iterator = authorities.iterator();
+        while (iterator.hasNext()) {
+            GrantedAuthority grantedAuthority = iterator.next();
+            log.debug("authorities = {}", grantedAuthority.getAuthority());
         }
 
         return new UsernamePasswordAuthenticationToken(email, password, authorities);

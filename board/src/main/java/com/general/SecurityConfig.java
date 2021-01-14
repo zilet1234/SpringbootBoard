@@ -1,6 +1,5 @@
-package com.general.security;
+package com.general;
 
-import com.general.model.dao.login.service.UserDetailsServiceImpl;
 import com.general.security.handler.SampleAuthFailureHandler;
 import com.general.security.handler.SampleAuthLogoutSuccessHandler;
 import com.general.security.handler.SampleAuthSuccessHandler;
@@ -33,24 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	SampleAuthLogoutSuccessHandler sampleAuthLogoutSuccessHandler;
 
-    @Autowired
-	UserDetailsServiceImpl userDetailsServiceImpl;
-
 	@Override
 	public void configure(AuthenticationManagerBuilder builder) {
-		log.info("configure :: AuthenticationManagerBuilder ");
+		log.info("configure register [AuthenticationManagerBuilder] ");
 		builder.authenticationProvider(userAuthenticationProvider);
 	}
 
 	@Override
 	public void configure(WebSecurity webSecurity) {
-		log.info("configure :: WebSecurity ");
+		log.info("configure register [WebSecurity]");
+
+		// 지정 디렉토리의 하위 파일 및 디렉토리는 인증 제외
 		webSecurity.ignoring().antMatchers("/resources/**");
 	}
 
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
-			log.info("configure :: HttpSecurity ");
+			log.info("configure register [HttpSecurity] ");
 
 			// csrf 사용 불가 설정
 			httpSecurity.csrf().disable();
@@ -59,7 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			httpSecurity.headers().frameOptions().disable();
 
 			httpSecurity.authorizeRequests()
-					.antMatchers("/sample/Test").permitAll()
+					// 페이지 권한 설정
+					.antMatchers("/sample/test").hasRole("ADMIN")
+					.antMatchers("/forgot-password").permitAll()
+					.antMatchers("/register").permitAll()
+					.antMatchers("/user/register").permitAll()
+					.antMatchers("/login").permitAll()
 					.antMatchers("/**").authenticated()
                 .and()
 					.formLogin()
@@ -73,7 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			    .and()
 			    	.logout()
                     .logoutUrl("/logout")
-                    .logoutSuccessHandler(sampleAuthLogoutSuccessHandler);
+                    .logoutSuccessHandler(sampleAuthLogoutSuccessHandler)
+//					.deleteCookies("JSESSIONID") // 쿠키 삭제
+				.and()
+					.exceptionHandling().accessDeniedPage("/404");
+
 	}
 
 }

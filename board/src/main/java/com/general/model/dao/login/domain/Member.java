@@ -24,26 +24,26 @@ public class Member {
 	private Integer memberSeq;
 
 	@Column
-	private String uid;		// add
+	private String uid;		// ID
 
 	@Column
-	private String upw;		// add
+	private String upw;		// PASSWORD
 
 	@Column
-	private String name;
+	private String name;	// NAME
 
 	@Column
-	private Integer age;
+	private Integer age;	// AGE
 
 	@Column
-	private Integer sex;
+	private Integer sex;	// SEX
 
 	@Column
-	private String address;
+	private String address;	// ADDRESS
 
 	@Column
-	private Date regDt;
+	private Date regDt;		// REGISTER DATE
 
 	@Column
-	private boolean delYn;
+	private boolean delYn;	// DELETE Y/N ?
 }

@@ -22,6 +22,10 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(Model model, HttpServletRequest request) {
+//        // 인증 페이지로 이동하기 전 URL 기억
+//        String referrer = request.getHeader("Referer");
+//        request.getSession().setAttribute("prevPage", referrer);
+
         return "/login/login";
     }
 

@@ -1,17 +1,55 @@
 IF NOT EXISTS(SELECT *
               FROM INFORMATION_SCHEMA.TABLES
-              WHERE TABLE_NAME = 'member')
+              WHERE TABLE_NAME = 'Member')
   BEGIN
-    CREATE TABLE member (
-      memberSeq INT IDENTITY(1,1) NOT NULL,
-      name NVARCHAR(10) NOT NULL,
-      age INT NOT NULL,
-      sex BIT NOT NULL,
-      address NVARCHAR(50) NULL,
-      delYn BIT NOT NULL,
-      regDt DATETIME NOT NULL,
-      uId VARCHAR(50) NULL,
-      upw VARCHAR(50) NULL,
-      CONSTRAINT [PK_member] PRIMARY KEY CLUSTERED
-  )
+    CREATE TABLE [dbo].[Member](
+        [MemberSeq] [int] IDENTITY(1,1) NOT NULL,
+        [Uid] [varchar](50) NOT NULL,
+        [Upw] [varchar](50) NOT NULL,
+        [Name] [nvarchar](10) NULL,
+        [Age] [int] NULL,
+        [Sex] [int] NULL,
+        [Address] [nvarchar](100) NULL,
+        [RegDT] [datetime] NOT NULL,
+        [DelYN] [bit] NOT NULL,
+     CONSTRAINT [PK_Member] PRIMARY KEY CLUSTERED
+    (
+        [MemberSeq] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ) ON [PRIMARY]
   END
+
+-- IF NOT EXISTS(SELECT *
+--               FROM INFORMATION_SCHEMA.TABLES
+--               WHERE TABLE_NAME = 'Role')
+-- BEGIN
+--     CREATE TABLE [dbo].[Role](
+--         [RoleSeq] [int] IDENTITY(1,1) NOT NULL,
+--         [Name] [nvarchar](10) NULL,
+--      CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED
+--     (
+--         [RoleSeq] ASC
+--     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+--     ) ON [PRIMARY]
+-- END
+
+IF NOT EXISTS(SELECT *
+              FROM INFORMATION_SCHEMA.TABLES
+              WHERE TABLE_NAME = 'Account')
+BEGIN
+CREATE TABLE [dbo].[Account](
+    [AccountSeq] [int] IDENTITY(1,1) NOT NULL,
+    [email] [nvarchar](100) NULL,
+    [password] [nvarchar](100) NULL,
+    [role] int NOT NULL,
+    [MemberSeq] int NOT NULL,
+    CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED
+(
+[AccountSeq] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ) ON [PRIMARY]
+END
+
+
+-- INSERT INTO Member VALUES ( 'sample@gmail.com', 'qwer1234', 'hong', 20, 1, 'seoul ... address ', GETDATE(), 0 );
+-- INSERT INTO Account VALUES ( 'sample@gmail.com', 'qwer1234', 1, 1);

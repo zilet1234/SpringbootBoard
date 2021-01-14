@@ -62,11 +62,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            // VARIABLE DEFINE
-            $form = $('#FormLogin');
-            $btnLogin = $('#BtnLogin');
+            /* ==================== 변수 정의 ==================== */
+            var $form = $('#FormLogin');
+            var $btnLogin = $('#BtnLogin');
 
-            // FUNCTION DEFINE
+            /* ==================== 함수 정의 ==================== */
 
             // INITIALIZE
             // $form.submit(function (event) {
@@ -74,9 +74,25 @@
             //     return true;
             // });
 
+            /* ==================== 이벤트 ==================== */
+
             $btnLogin.on('click', function () {
                 $form.submit();
             });
+
+
+            /* ==================== 로딩 ==================== */
+
+            var url = location.href;
+            var path = url.split('?');
+            if ( path.length > 1) {
+                var state = path[1].split('=')[1];
+
+                if (state == 'fail') {
+                    alert('인증 실패 하였습니다.');
+                }
+                location.href = path[0];
+            }
 
         });
     </script>

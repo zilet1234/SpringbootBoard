@@ -1,9 +1,7 @@
 package com.test.database;
 
-import com.general.model.dao.login.domain.Member;
-import com.general.model.dao.login.domain.Role;
 import com.general.model.dao.login.domain.User;
-import com.general.model.dao.login.repository.MemberRepository;
+import com.general.model.dao.login.enums.Role;
 import com.general.model.dao.login.service.UserService;
 import com.test.ApplicationTests;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.transaction.Transactional;
-import java.util.List;
-
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest (classes = {ApplicationTests.class})
-@ActiveProfiles("young")
+@ActiveProfiles("home")
 public class DatabaseTests {
 
     @Autowired
@@ -28,21 +23,17 @@ public class DatabaseTests {
 
     @Test
     public void test(){
-        String email = "zilet1234@naver.com";
-        User user = userService.get(email);
+        User user = new User();
 
-        List<Role> roleList = user.getRoleList();
+        user.setEmail("test4@naver.com");
+        user.setPassword("test4");
+        user.setRole(Role.USER);
 
-        log.info("=================================================");
-        for (Role role : roleList) {
-            log.info("role name = {}", role.getName());
+        try {
+            userService.addByTest(user);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        log.info("=================================================");
-
-        Member member = user.getMember();
-        log.info("member name = {}", member.getName());
-        log.info("=================================================");
-
     }
 
 }

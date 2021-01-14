@@ -19,7 +19,7 @@ public class SampleAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        log.debug( " onAuthenticationSuccess .... ");
+        log.debug( " ====================> onAuthenticationSuccess .... ");
 
         HttpSession session = request.getSession();
 
@@ -31,22 +31,35 @@ public class SampleAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
             if(redirectUrl != null) {
                 session.removeAttribute("prevPage");
                 getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+            } else {
+                // default targetUrl 로 이동하지 않도록 설정
+                super.setAlwaysUseDefaultTargetUrl(true);
+
+                // default 페이지 설정
+                super.setDefaultTargetUrl("/main");
+
+                // 페이지 이동
+                super.onAuthenticationSuccess(request, response, authentication);
             }
         } else {
-            log.debug(" ===================================== session is null ");
+
+            // default targetUrl 로 이동하지 않도록 설정
+            super.setAlwaysUseDefaultTargetUrl(true);
+
+            // default 페이지 설정
+            super.setDefaultTargetUrl("/main");
+
+            // 페이지 이동
+            super.onAuthenticationSuccess(request, response, authentication);
+
         }
 
-        // default targetUrl 로 이동하지 않도록 설정
-//        super.setAlwaysUseDefaultTargetUrl(true);
+
 
         // targetUrl 파라메터 이름 설정
 //        super.setTargetUrlParameter("redirectUrl");
 
-        // default 페이지 설정
-        super.setDefaultTargetUrl("/main");
 
-        // 페이지 이동
-        super.onAuthenticationSuccess(request, response, authentication);
     }
 
 }

@@ -10,9 +10,9 @@ public interface MemberService {
 
     List<Member> getAll();
 
-    Member set(Member member);
+    Member add(Member member);
 
-    List<Member> sets(List<Member> members);
+    List<Member> adds(List<Member> members);
 
     Member modify(Member member);
 

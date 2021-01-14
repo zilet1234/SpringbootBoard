@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <property name="PROFILE" value="local" scope="system"/>
+    <springProfile name="zilet, home, release">
+        <springProperty name="PROFILE" source="spring.profiles" scope="system"/>
+    </springProfile>
+    <springProperty name="LOG_DIR" source="logging.path" scope="context"/>
+    <springProperty name="LOG_NAME" source="logging.name" scope="context"/>
+    <springProperty name="LOG_PACKAGE" source="logging.package" scope="context"/>
+    <springProperty name="LOG_PATTERN" source="logging.pattern.console" scope="context"/>
+
+    <!-- ROOT -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.${PROFILE}/${LOG_NAME}.${PROFILE}.%d{yyyyMMdd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 90 일간 보관 -->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <if condition='property("PROFILE").contains("local")'>
+        <then>
+            <root level="DEBUG">
+                <appender-ref ref="console"/>
+                <appender-ref ref="rollingFile"/>
+            </root>
+        </then>
+        <else>
+            <root level="INFO">
+                <appender-ref ref="console"/>
+                <appender-ref ref="rollingFile"/>
+            </root>
+        </else>
+    </if>
+
+    <!-- WEB : controller -->
+    <property name="LOG_SUB_NAME" value="controller"/>
+
+    <appender name="rollingFile_${LOG_SUB_NAME}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}.%d{yyyyMMdd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="${LOG_PACKAGE}.${LOG_SUB_NAME}">
+        <appender-ref ref="rollingFile_${LOG_SUB_NAME}"/>
+    </logger>
+
+    <!-- Model : model -->
+    <property name="LOG_SUB_NAME" value="model"/>
+
+    <appender name="rollingFile_${LOG_SUB_NAME}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}.%d{yyyyMMdd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="${LOG_PACKAGE}.${LOG_SUB_NAME}">
+        <appender-ref ref="rollingFile_${LOG_SUB_NAME}"/>
+    </logger>
+
+    <!-- SCHEDULER : scheduler.sarangbang -->
+<!--    <property name="LOG_SUB_NAME" value="scheduler.sarangbang"/>-->
+<!---->
+<!--    <appender name="rollingFile_${LOG_SUB_NAME}" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}/${LOG_NAME}.${PROFILE}.${LOG_SUB_NAME}.%d{yyyyMMdd}-%i.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>50MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--            <maxHistory>90</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>${LOG_PATTERN}</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+<!---->
+<!--    <logger name="${LOG_PACKAGE}.${LOG_SUB_NAME}">-->
+<!--        <appender-ref ref="rollingFile_${LOG_SUB_NAME}"/>-->
+<!--    </logger>-->
+
+</configuration>

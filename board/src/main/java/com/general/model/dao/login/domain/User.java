@@ -1,9 +1,12 @@
 package com.general.model.dao.login.domain;
 
+import com.general.model.dao.login.enums.Role;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -31,12 +34,11 @@ public class User implements UserDetails {
 	@Column (nullable = false)
 	private String password;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "roleSeq")
-	private List<Role> roleList;
+	@Column
+	private Role role;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "memberSeq")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "MemberSeq")
 	private Member member;
 
 	@Transient
@@ -53,7 +55,12 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roleList;
+		List<GrantedAuthority> authorities = Lists.newArrayList();
+		if ( role == null){
+			role = Role.USER;
+		}
+		authorities.add(new SimpleGrantedAuthority(this.role.getValue()));
+		return authorities;
 	}
 
 	@Override

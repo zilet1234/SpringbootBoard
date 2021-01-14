@@ -4,6 +4,7 @@ import com.general.model.dao.login.domain.Member;
 import com.general.model.dao.login.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @since 2019-03-25
  */
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
@@ -28,12 +30,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member set(Member member) {
+	public Member add(Member member) {
 		return memberRepository.save(member);
 	}
 
 	@Override
-	public List<Member> sets(List<Member> members) {
+	public List<Member> adds(List<Member> members) {
 		return memberRepository.save(members);
 	}
 

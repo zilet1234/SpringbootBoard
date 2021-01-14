@@ -17,11 +17,9 @@ public class SampleAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
                                         HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         // 페이지 이동
-        request.setAttribute("errMessage", exception.getMessage());
-//        request.setAttribute("securedId", request.getParameter("securedId"));
-//        request.setAttribute("redirectUrl", request.getParameter("redirectUrl"));
+        super.setDefaultFailureUrl("/login?login=fail");
 
-//        request.getRequestDispatcher("/login").forward(request, response);
+        super.onAuthenticationFailure(request, response, exception);
     }
 
 }
